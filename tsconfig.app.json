@@ -23,7 +23,7 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": "/alexmwinter/",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
