@@ -13,7 +13,7 @@ Adapting a lightweight model like Gemma-4 E4B to evaluate NIST 800-53 controls r
 
 When teaching an LLM the nuances of NIST 800-53 compliance, we face a critical architectural decision regarding how to inject domain knowledge:
 
-- **Continued Pre-training (Raw Corpus):** Feeding the raw text of NIST SP 800-53 deeply embeds the security vocabulary, baseline parameters, and control families (AC, AU, SC, etc.) into the model's foundational weights. While this makes the model a walking encyclopedia of NIST regulations, it is computationally expensive, risks catastrophic forgetting of general reasoning skills, and critically, doesn't teach the model *how* to perform an assessment.
+- **Continued Pre-training (Raw Corpus):** Feeding the raw text of NIST SP 800-53 deeply embeds the security vocabulary, baseline parameters, and control families (AC, AU, SC, etc.) into the model's foundational weights. While this makes the model a perfect knowledge of NIST regulations, it is computationally expensive, risks catastrophic forgetting of general reasoning skills, and critically, doesn't teach the model *how* to perform an assessment.
 - **LoRA Fine-Tuning (Instruction Set):** Creating a custom dataset of prompt-answer pairs (e.g., "Assess control AC-2 based on this Active Directory log snippet") and applying Low-Rank Adaptation (LoRA) is highly efficient. This approach trains the model on the specific *behavior* of an auditor. It teaches the model how to structure a response, identify gaps in evidence, and output clear pass/fail rationale without altering the core base weights. For an assessment bot, this task-specific tuning is generally far superior.
 
 ## The Role of RAG for System Evidence
