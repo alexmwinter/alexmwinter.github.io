@@ -52,6 +52,7 @@ const customTheme = {
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/alexmwinter/",
   plugins: [
     {
       enforce: 'pre',
