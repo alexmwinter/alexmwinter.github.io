@@ -4,19 +4,6 @@ import { JwtInspector } from "./JwtInspector"
 import { CidrCalculator } from "./CidrCalculator"
 import { NginxHeaderLinter } from "./NginxHeaderLinter"
 
-function PlaceholderTool({ name }: { name: string }) {
-  return (
-    <div className="flex flex-col items-center justify-center py-24 bg-charcoal/30 border border-dashed border-white/10 rounded-lg">
-      <p className="text-mid-gray font-mono text-sm italic">
-        [{name.toUpperCase()}_STAGING]
-      </p>
-      <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] mt-4">
-        Component implementation in progress
-      </p>
-    </div>
-  )
-}
-
 export default function Tools() {
   return (
     <div className="max-w-6xl mx-auto px-6 py-24">

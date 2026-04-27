@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -7,13 +7,6 @@ import { cn } from "@/lib/utils";
 // Robust IPv4 CIDR Regex
 // Matches 0-255 for each octet and /0-32 for the suffix
 const CIDR_REGEX = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(?:3[0-2]|[12]?[0-9])$/;
-
-interface CidrResults {
-  network: string;
-  broadcast: string;
-  usableRange: string;
-  totalHosts: number;
-}
 
 // Helper to convert number to IP string
 function numberToIp(n: number): string {
