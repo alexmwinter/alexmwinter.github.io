@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { TechLabel } from "./ui/design-system"
 import { Menu } from "lucide-react"
@@ -21,6 +22,7 @@ const navItems = [
 
 export function Navigation() {
   const location = useLocation()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 md:py-6 flex justify-between items-center bg-[#121212] border-b border-[#334155]">
@@ -53,7 +55,7 @@ export function Navigation() {
 
       {/* Mobile Navigation */}
       <div className="md:hidden">
-        <Sheet>
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
             <button className="p-2 text-white" aria-label="Open Menu">
               <Menu size={24} />
@@ -75,6 +77,7 @@ export function Navigation() {
                   <Link 
                     key={item.path} 
                     to={item.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
                       "font-sans text-2xl font-bold transition-colors",
                       isActive ? "text-bright-blue" : "text-black dark:text-white"
