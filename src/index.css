@@ -1,0 +1,126 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+@import "@fontsource/fira-code";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    /* Fonts */
+    --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-mono: 'Fira Code', monospace;
+
+    /* Base Greyscale */
+    --color-charcoal: #121212;
+    --color-dark-slate: #1e293b;
+    --color-mid-gray: #64748b;
+    --color-light-slate: #e2e8f0;
+    --color-off-white: #f8f9fa;
+    
+    /* Core Colors */
+    --color-bright-blue: #2563eb;
+    --color-deep-blue: #1e3a8a;
+    --color-accent-purple: #7c3aed;
+
+    /* Shadcn Overrides (mapping to our design system) */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+}
+
+:root {
+    --background: #ffffff;
+    --foreground: #000000;
+    
+    --card: #ffffff;
+    --card-foreground: #121212;
+    
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    
+    --secondary: #f8f9fa;
+    --secondary-foreground: #121212;
+    
+    --muted: #f8f9fa;
+    --muted-foreground: #64748b;
+    
+    --accent: #e2e8f0;
+    --accent-foreground: #121212;
+    
+    --border: #e2e8f0;
+    --input: #f8f9fa;
+    --ring: rgba(37, 99, 235, 0.3);
+    
+    --radius: 6px;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+.dark {
+    --background: #121212;
+    --foreground: #ffffff;
+    
+    --card: #121212;
+    --card-foreground: #ffffff;
+    
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    
+    --secondary: #1e293b;
+    --secondary-foreground: #ffffff;
+    
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    
+    --accent: #334155;
+    --accent-foreground: #ffffff;
+    
+    --border: #334155;
+    --input: #1e293b;
+    --ring: rgba(37, 99, 235, 0.3);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-bold tracking-tight;
+  }
+  code, pre {
+    @apply font-mono;
+    font-variant-ligatures: contextual;
+  }
+}
+
+@layer components {
+    .fira-label {
+        @apply font-mono text-[14px] font-medium uppercase tracking-[2px] leading-tight;
+    }
+    
+    .hero-headline {
+        @apply font-sans font-bold text-5xl md:text-[96px] tracking-tight leading-[1.1] md:leading-[1.2];
+    }
+
+    .section-heading {
+        @apply font-sans font-bold text-[36px] tracking-tight leading-[1.33];
+    }
+}

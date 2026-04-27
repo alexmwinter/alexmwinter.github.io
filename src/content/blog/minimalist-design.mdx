@@ -1,0 +1,30 @@
+---
+title: "The Architecture of Minimalist Design Systems"
+date: "2026-04-15"
+tags: ["SYSTEM_DESIGN", "CSS"]
+description: "Exploring the technical constraints required to maintain a pure greyscale aesthetic at scale."
+---
+
+# Precision in Design
+
+Building a design system that relies on a pure greyscale palette requires a high degree of technical constraint. Every pixel must serve a specific functional purpose.
+
+## Core Principles
+
+- **Contrast is King:** Using `#121212` against `#ffffff` creates an immediate hierarchy.
+- **Functional Color:** Bright Blue (`#2563eb`) is reserved strictly for interaction.
+
+```typescript
+const theme = {
+  background: '#121212',
+  interaction: '#2563eb',
+  weight: '#1e3a8a'
+};
+
+function initializeTheme(config: typeof theme) {
+  console.log("Applying core blue logic...");
+  return true;
+}
+```
+
+This ensures that the user is never confused about what is interactive and what is structural.

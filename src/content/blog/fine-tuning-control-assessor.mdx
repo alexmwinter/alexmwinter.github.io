@@ -1,0 +1,61 @@
+---
+title: "Building an AI Auditor: Fine-Tuning Gemma-4 E4B for NIST 800-53"
+date: "2026-04-26"
+tags: ["LLM", "CYBERSECURITY", "UNSLOTH", "RAG"]
+description: "Evaluating training strategies and RAG architecture for automated security control assessments."
+---
+
+# The AI Control Assessor
+
+Adapting a lightweight model like Gemma-4 E4B to evaluate NIST 800-53 controls requires the right strategy. The model must understand the sometimes sprawling regulatory language while maintaining the flexibility to analyze unique system evidence accurately.
+
+## Pre-training vs. LoRA Fine-Tuning
+
+When teaching an LLM the nuances of NIST 800-53 compliance, we face a critical architectural decision regarding how to inject domain knowledge:
+
+- **Continued Pre-training (Raw Corpus):** Feeding the raw text of NIST SP 800-53 deeply embeds the security vocabulary, baseline parameters, and control families (AC, AU, SC, etc.) into the model's foundational weights. While this makes the model a walking encyclopedia of NIST regulations, it is computationally expensive, risks catastrophic forgetting of general reasoning skills, and critically, doesn't teach the model *how* to perform an assessment.
+- **LoRA Fine-Tuning (Instruction Set):** Creating a custom dataset of prompt-answer pairs (e.g., "Assess control AC-2 based on this Active Directory log snippet") and applying Low-Rank Adaptation (LoRA) is highly efficient. This approach trains the model on the specific *behavior* of an auditor. It teaches the model how to structure a response, identify gaps in evidence, and output clear pass/fail rationale without altering the core base weights. For an assessment bot, this task-specific tuning is generally far superior.
+
+## The Role of RAG for System Evidence
+
+While fine-tuning teaches the model *how* to act as an assessor, Retrieval-Augmented Generation (RAG) provides the exact data of *what* to assess. 
+
+System Security Plans (SSPs), network diagrams, policies, and raw audit logs are dynamic and highly sensitive. You should never attempt to fine-tune a model on system-specific evidence. Instead, RAG is used at inference time to fetch the relevant program documentation and inject it into the prompt. RAG serves as the ground-truth evidence, allowing our LoRA-trained assessor to evaluate the specific state of the system against its learned assessment methodology.
+
+## Unsloth Fine-Tuning Basics
+
+To execute the instruction fine-tuning efficiently, Unsloth provides massive speedups and memory reductions for LoRA training. Here is the basic initialization for a Gemma model notebook:
+
+```python
+from unsloth import FastLanguageModel
+import torch
+
+# 1. Initialize Gemma-4 4B with 4-bit quantization for memory efficiency
+model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name = "unsloth/gemma-4-E4B-it-GGUF",
+    max_seq_length = 4096, # Adequate for control descriptions and QA
+    dtype = None,
+    load_in_4bit = True,
+)
+
+# 2. Apply LoRA adapters to target modules
+model = FastLanguageModel.get_peft_model(
+    model,
+    r = 16, # LoRA rank
+    target_modules = ["q_proj", "k_proj", "v_proj", "o_proj",
+                      "gate_proj", "up_proj", "down_proj"],
+    lora_alpha = 16,
+    lora_dropout = 0, # Unsloth optimization requires 0 dropout
+    bias = "none",
+    use_gradient_checkpointing = "unsloth",
+)
+
+def initialize_trainer(dataset):
+    print("Applying NIST 800-53 Q&A logic to base model...")
+    # Setup HuggingFace SFTTrainer here
+    return True
+```
+
+## Near Future
+
+I plan to build this dataset moving forward so be on the look out for a future post diving into creating this Q&A dataset!
