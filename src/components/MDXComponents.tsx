@@ -1,5 +1,4 @@
 import * as React from "react"
-import { TechLabel } from "./ui/design-system"
 import { cn } from "@/lib/utils"
 
 export const MDXComponents = {
